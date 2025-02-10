@@ -12,7 +12,8 @@ export const createToken = (data: IUser) => {
         firstName: data.firstName,
         lastName: data.lastName,
         avatar: data.avatar,
-        role: data.role
+        role: data.role,
+        productCount: data.productCount
     }
   return user
 }

@@ -1,18 +1,19 @@
 import { Request, Response } from "express"
 import { addProductToCart, Cart, deleteProductFromCart, getProductsFromCart } from "../models/cart"
 import HttpStatus from "http-status-codes";
-import { IUser } from "../models/users";
+import { getUserById, IUser } from "../models/users";
 import { getProductById, getProductsForUser } from "../models/products";
+import { userInfo } from "os";
 
 
 export const getProductFormCartController = async (req: Request, res: Response) => {
   try {
-    const user = <IUser>req.user;
-    const productsUser = await getProductsFromCart(user.id);
+    const { _id } = req.user as IUser;
+    const productsUser = await getProductsFromCart(_id);
     if (!productsUser) {
       res.status(HttpStatus.BAD_REQUEST).json({ message: "Products not found" })
     }
-    res.status(HttpStatus.OK).json(productsUser)
+    res.status(HttpStatus.OK).json(productsUser?.productsCart)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: "Server is not responding" })
   }
@@ -28,22 +29,26 @@ export const addProductToCartController = async (req: Request, res: Response) =>
     return
   }
   try {
-    const existingCart = await Cart.findOne({ userId: user._id });
+    const existingCart = await getProductsFromCart(user.id);
+    const dataUser = await getUserById(user.id);
+    if (dataUser) {
+      dataUser.productCount = (dataUser.productCount || 0) + 1;
+      await dataUser.save()
+    }
     if (!existingCart) {
-      const newCart = new Cart({
-        userId: user._id,
-        productsCart: product,
-      })
-      newCart.save()
-      res.status(HttpStatus.OK).json(newCart)
-      return
+        const newCart = await addProductToCart({
+          userId: user.id,
+          productsCart: product,
+        })
+        res.status(HttpStatus.OK).json(newCart?.productsCart)
+        return
     }
     const updatedCart = await Cart.findOneAndUpdate(
-      { userId: user._id },
+      { userId: user.id },
       { $push: { productsCart: product } },
       { new: true }
     );
-    res.status(HttpStatus.OK).json(updatedCart)
+    res.status(HttpStatus.OK).json(updatedCart?.productsCart)
   } catch (error) {
     console.log(error) 
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: "Server is not responding" })
@@ -62,9 +67,14 @@ export const deleteProductFromCartController = async (req: Request, res: Respons
       );
 
       if (indexToRemove !== -1) {
+        const dataUser = await getUserById(user.id);
+        if (dataUser) {
+          dataUser.productCount = (dataUser.productCount || 0) - 1;
+          await dataUser.save()
+        }
         cart.productsCart.splice(indexToRemove, 1);
         await cart.save();
-        res.status(HttpStatus.OK).json(cart)
+        res.status(HttpStatus.OK).json(cart.productsCart)
         return
       }
       res.status(HttpStatus.BAD_REQUEST)

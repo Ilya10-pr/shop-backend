@@ -11,7 +11,7 @@ export const authMeControllers = async (req: Request, res: Response) => {
     if(!user){
       res.status(HttpStatus.NOT_FOUND).json({message: "User not found"})
     }
-
+    console.log(user)
     res.status(HttpStatus.OK).json(user)
   } catch (error) {
     console.log(error)

@@ -16,6 +16,6 @@ const cartSchema = new Schema<ICart>({
 export const Cart = model("Cart", cartSchema);
 
 
-export const getProductsFromCart = (id: string) => Cart.find({userId: id}, {productsCart: 1}); 
-export const addProductToCart = (values: Record<string, any>) => new Cart(values).save().then((product) => product);
-export const deleteProductFromCart = (userId: string, productId: string ) => Cart.deleteOne({userId, productId})
+export const getProductsFromCart = (id: string) => Cart.findOne({userId: id}); 
+export const addProductToCart = (values: ICart) => new Cart(values).save().then((product) => product);
+export const deleteProductFromCart = (userId: string, productId: string ) => Cart.deleteOne({userId, productId}, {productsCart: 1, _id: 0})
