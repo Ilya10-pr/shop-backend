@@ -18,7 +18,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Разрешаем методы
   allowedHeaders: ['Content-Type', 'Authorization'], // Разрешаем заголовки
 }));
-app.use(router);
+app.use(router); 
 
 
 const startServer = async () => {

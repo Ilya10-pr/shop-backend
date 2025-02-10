@@ -15,7 +15,7 @@ export interface IProduct {
   isStock: boolean
 }
 
-const schema = new Schema<IProduct>({
+export const productSchema = new Schema<IProduct>({
   name: String,
   description: String,
   image: String,
@@ -27,7 +27,7 @@ const schema = new Schema<IProduct>({
   isStock: Boolean,
 });
 
-export const Product = model('Product', schema);
+export const Product = model("Product", productSchema);
 
 
 export const getProducts = () => Product.find(); 
