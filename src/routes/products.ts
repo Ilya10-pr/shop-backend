@@ -5,12 +5,14 @@ import {
   getProductByIdControllers, 
   getProductsControllers, 
   updateProductControllers,
-  getProductsByCategoryControllers
+  getProductsByOptionControllers,
 } from "../controllers/products";
 
 export const products = Router()
 
-products.get("/category/:name", getProductsByCategoryControllers)
+
+
+products.get("/option", getProductsByOptionControllers)
 products.get("/", getProductsControllers)
 products.get("/:id", getProductByIdControllers)
 products.post("/", createProductControllers)

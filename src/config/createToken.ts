@@ -13,7 +13,7 @@ export const createToken = (data: IUser) => {
         lastName: data.lastName,
         avatar: data.avatar,
         role: data.role,
-        productCount: data.productCount
+        amount: data.amount
     }
   return user
 }

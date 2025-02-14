@@ -12,7 +12,8 @@ export interface IProduct {
   color: string;
   ram: number;
   rating: number;
-  isStock: boolean
+  isStock: boolean;
+  countBuy: number;
 }
 
 export const productSchema = new Schema<IProduct>({
@@ -23,17 +24,18 @@ export const productSchema = new Schema<IProduct>({
   category: String,
   color: String,
   ram: Number,
-  rating: Number,
+  rating: {type: Number, default: 0},
   isStock: Boolean,
+  countBuy: {type: Number, default: 0}
 });
 
 export const Product = model("Product", productSchema);
 
 
 export const getProducts = () => Product.find(); 
-export const getProductsForUser = (productIds: string[]) => Product.find({ _id: { $in: productIds } })
+export const getProductsForUser = (productId: string[]) => Product.find({ _id: { $in: productId } })
 export const getProductById = (_id: string) => Product.findById({_id})
-export const getProductByCategory = (category: string) => Product.find({category})
+export const getProductByOption = (name: string) => Product.find({name})
 export const createProduct = (values: Record<string, any>) => new Product(values).save().then((product) => product);
 export const updateProduct = (id: string, values: Record<string, any>) => Product.findByIdAndUpdate(id, values)
 export const deleteProduct = (_id: string) => Product.deleteOne({_id})

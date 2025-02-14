@@ -11,7 +11,6 @@ export const authMeControllers = async (req: Request, res: Response) => {
     if(!user){
       res.status(HttpStatus.NOT_FOUND).json({message: "User not found"})
     }
-    console.log(user)
     res.status(HttpStatus.OK).json(user)
   } catch (error) {
     console.log(error)
@@ -24,7 +23,6 @@ export const authMeControllers = async (req: Request, res: Response) => {
 export const registerUserControllers = async (req: Request, res: Response) => {
    try {
       const {firstName, lastName, email, password} =  req.body;
-      console.log(req.body)
       const candidate = await getUserByEmail(email);
       if (candidate) {
          res.status(HttpStatus.BAD_REQUEST).json({message: "User with this email already exists"});
@@ -63,3 +61,5 @@ export const loginUserControllers = async(req: Request, res: Response) => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
   }
 }
+
+

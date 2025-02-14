@@ -10,18 +10,18 @@ export interface IUser extends Document {
   password: string;
   role?: string[];
   comparePassword(candidatePassword: string): Promise<boolean>;
-  productCount?: number;
+  amount: number
 }
 
 
 const schema = new Schema<IUser>({
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
-  avatar: {type: String, default: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"},
+  avatar: {type: String, default: "https://cdn-icons-png.flaticon.com/512/6858/6858504.png"},
   email:  {type: String, required: true},
   password: {type: String, required: true},
   role: {type: [String], default: ["user"]},
-  productCount: {type: Number, default: 0}
+  amount: {type: Number, default: 0},
 });
 
 
