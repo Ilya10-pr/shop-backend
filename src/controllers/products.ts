@@ -87,10 +87,12 @@ export const updateProductControllers = async (req: Request, res: Response) => {
         return
       }
     }
-    const product = await updateProduct(id, data);
+    await updateProduct(id, data);
+    const product = await getProducts()
     if(!product) {
       res.status(HttpStatus.BAD_REQUEST)
     }
+    console.log(product)
     res.status(HttpStatus.OK).json(product)
   } catch (error) {
     console.log(error)
@@ -116,7 +118,7 @@ export const addCountBuyProductController = async (req: Request, res: Response) 
   const {id} = req.params;
   try {
     const product = await getProductById(id);
-    if(!product) {
+    if(!product?.countBuy) {
       res.status(HttpStatus.BAD_REQUEST)
       return
     }

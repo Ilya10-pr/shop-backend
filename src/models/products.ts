@@ -11,9 +11,9 @@ export interface IProduct {
   brand: string;
   color: string;
   ram: number;
-  rating: number;
+  rating?: number;
   isStock: boolean;
-  countBuy: number;
+  countBuy?: number;
 }
 
 export const productSchema = new Schema<IProduct>({
@@ -37,5 +37,5 @@ export const getProductsForUser = (productId: string[]) => Product.find({ _id: {
 export const getProductById = (_id: string) => Product.findById({_id})
 export const getProductByOption = (name: string) => Product.find({name})
 export const createProduct = (values: Record<string, any>) => new Product(values).save().then((product) => product);
-export const updateProduct = (id: string, values: Record<string, any>) => Product.findByIdAndUpdate(id, values)
+export const updateProduct = (_id: string, values: Record<string, any>) => Product.findByIdAndUpdate(_id, values)
 export const deleteProduct = (_id: string) => Product.deleteOne({_id})
