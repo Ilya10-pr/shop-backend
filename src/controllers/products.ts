@@ -99,8 +99,8 @@ export const updateProductControllers = async (req: Request, res: Response) => {
 }
 
 export const deleteProductById = async (req: Request, res: Response) => {
+  const {id} = req.params;
   try {
-    const {id} = req.params;
     const product = await deleteProduct(id);
     if(!product) {
       res.status(HttpStatus.BAD_REQUEST)
@@ -112,4 +112,36 @@ export const deleteProductById = async (req: Request, res: Response) => {
   }
 }
 
+export const addCountBuyProductController = async (req: Request, res: Response) => {
+  const {id} = req.params;
+  try {
+    const product = await getProductById(id);
+    if(!product) {
+      res.status(HttpStatus.BAD_REQUEST)
+      return
+    }
+    product.countBuy += 1
+    product.save()
+    res.status(HttpStatus.OK).json(product)
+  } catch (error) {
+    console.log(error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
+  }
+}
+
+
+export const getProductsByBrand = async (req: Request, res: Response) => {
+  const {brand} = req.params
+  try {
+    const products = await Product.find({brand: brand });
+    if(!products){
+      res.status(HttpStatus.BAD_REQUEST)
+      return
+    }
+    res.status(HttpStatus.OK).json(products)
+  } catch (error) {
+    console.log(error)
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
+  }
+}
 

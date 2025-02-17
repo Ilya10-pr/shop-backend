@@ -8,7 +8,7 @@ export interface IProduct {
   description: string;
   image: string;
   price: number;
-  category: string;
+  brand: string;
   color: string;
   ram: number;
   rating: number;
@@ -21,7 +21,7 @@ export const productSchema = new Schema<IProduct>({
   description: String,
   image: String,
   price: Number,
-  category: String,
+  brand: String,
   color: String,
   ram: Number,
   rating: {type: Number, default: 0},

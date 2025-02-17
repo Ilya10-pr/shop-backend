@@ -50,16 +50,19 @@ export const loginUserControllers = async(req: Request, res: Response) => {
 
     if(!candidate) {
       res.status(404).json({message: 'User not found'});
+      return
     }
     const isCorrected = await candidate.comparePassword(password);
-    if (isCorrected) {
-      const user = createToken(candidate)
-      res.status(HttpStatus.OK).json(user);
+    if (!isCorrected) {
+      res.status(HttpStatus.UNAUTHORIZED)
+      return
     }
+    const user = createToken(candidate)
+    res.status(HttpStatus.OK).json(user);
   } catch (error) {
     console.log(error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
   }
 }
-
+ 
 

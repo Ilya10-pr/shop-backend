@@ -3,7 +3,7 @@ import { getUserById, IUser } from "../models/users";
 import HttpStatus from "http-status-codes";
 
 
-export const updateUserController = async(req: Request, res: Response) => {
+export const updateAmountUserController = async(req: Request, res: Response) => {
   const {id} = <IUser>req.user
   const {amount} =  req.body;
 
@@ -21,3 +21,5 @@ export const updateUserController = async(req: Request, res: Response) => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
   }
 }
+
+

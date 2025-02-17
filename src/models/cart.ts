@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { IProduct, productSchema } from './products';
 const { Schema, model } = mongoose;
 
 export interface ICart {
