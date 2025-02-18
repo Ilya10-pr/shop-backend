@@ -4,9 +4,11 @@ export interface IComment {
   productId: string;
   avatar: string;
   firstName:string;
-  userId: string;
-  countStar: number;
-  description?: string;
+  countStar?: number;
+  comment: string;
+  isAdmin: boolean;
+  createdAt?: Date,
+  updatedAt?: Date,
 }
 
 
@@ -14,9 +16,11 @@ export const commentSchema = new Schema<IComment>({
   productId: String,
   avatar: String,
   firstName:String,
-  userId: String,
   countStar: Number,
-  description: {type: String, default: "There is no comment"}
+  comment: String,
+  isAdmin: Boolean,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 })
 
 export const Comments = model("Comments", commentSchema)

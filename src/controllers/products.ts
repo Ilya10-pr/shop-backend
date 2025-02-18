@@ -86,10 +86,10 @@ export const updateProductControllers = async (req: Request, res: Response) => {
         res.status(HttpStatus.OK).json(updateProduct)
         return
       }
-    }
+    }     
     await updateProduct(id, data);
     const product = await getProducts()
-    if(!product) {
+    if(!product) {                                                                                                                                 
       res.status(HttpStatus.BAD_REQUEST)
     }
     console.log(product)
