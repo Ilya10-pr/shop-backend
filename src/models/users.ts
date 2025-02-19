@@ -8,7 +8,7 @@ export interface IUser extends Document {
   avatar?: string;
   email: string;
   password: string;
-  role?: string[];
+  role: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
   amount: number
 }
@@ -20,7 +20,7 @@ const schema = new Schema<IUser>({
   avatar: {type: String, default: "https://cdn-icons-png.flaticon.com/512/6858/6858504.png"},
   email:  {type: String, required: true},
   password: {type: String, required: true},
-  role: {type: [String], default: ["user"]},
+  role: {type: String, default: "user"},
   amount: {type: Number, default: 0},
 });
 

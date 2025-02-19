@@ -5,19 +5,6 @@ import HttpStatus from "http-status-codes"
 export const commentRouter = Router()
 
 
-commentRouter.get("/", async (req: Request, res: Response) => {
-  const comments = await Comments.find()
-  try {
-    if(!comments){
-      res.status(HttpStatus.BAD_REQUEST).json({message: "Comments not found"})
-    }
-    res.status(HttpStatus.OK).json(comments)
-  } catch (error) {
-    console.log(error)
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({message: "Server is not responding"})
-  }
-})
-
 commentRouter.post("/", async (req: Request, res: Response) => {
   const commentInfo = req.body
   try {
@@ -31,7 +18,8 @@ commentRouter.post("/", async (req: Request, res: Response) => {
         avatar :commentInfo.avatar,
         productId: commentInfo.productId,
         countStar: commentInfo.countStar,
-        description: commentInfo.description
+        text: commentInfo.text,
+        isAdmin: commentInfo.isAdmin
     })
     newComment.save()
     if(!newComment) {
