@@ -47,8 +47,8 @@ export const getProductsControllers = async (req: Request, res: Response) => {
 }
 
 export const getProductByIdControllers = async (req: Request, res: Response) => {
+  const {id} = req.params;
   try {
-    const {id} = req.params;
     const product = await getProductById(id);
     if(!product){
       res.status(HttpStatus.NOT_FOUND)
@@ -61,8 +61,8 @@ export const getProductByIdControllers = async (req: Request, res: Response) => 
 }
 
 export const createProductControllers = async (req: Request, res: Response) => {
+  const {body} = req;
   try {
-    const {body} = req;
     const newProduct = await createProduct(body);
     if(!newProduct) {
       res.status(HttpStatus.BAD_REQUEST)
@@ -75,15 +75,19 @@ export const createProductControllers = async (req: Request, res: Response) => {
 }
 
 export const updateProductControllers = async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const data = req.body
   try {
-    const {id} = req.params;
-    const data = req.body
     if(data.value){
       const updateProduct = await getProductById(id)
       if(updateProduct){
         updateProduct.rating = updateProduct.rating === 0 ? data.value : Math.floor(((updateProduct.rating + data.value) / 2) * 10) / 10
         await updateProduct.save()
-        res.status(HttpStatus.OK).json(updateProduct)
+        const product = await getProducts()
+        if(!product) {                                                                                                                                 
+          res.status(HttpStatus.BAD_REQUEST)
+          return
+        }
         return
       }
     }     

@@ -1,5 +1,4 @@
 import {Router } from "express";
-import dotenv from "dotenv";
 import { 
   authMeControllers, 
   loginUserControllers, 

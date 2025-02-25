@@ -33,7 +33,7 @@ export const Product = model("Product", productSchema);
 
 
 export const getProducts = () => Product.find(); 
-export const getProductsForUser = (productId: string[]) => Product.find({ _id: { $in: productId } })
+export const getProductsForCartUser = (productId: string[]) => Product.find({ _id: { $in: productId } })
 export const getProductById = (_id: string) => Product.findById({_id})
 export const getProductByOption = (name: string) => Product.find({name})
 export const createProduct = (values: Record<string, any>) => new Product(values).save().then((product) => product);

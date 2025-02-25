@@ -26,3 +26,6 @@ export const commentSchema = new Schema<IComment>({
 })
 
 export const Comments = model("Comments", commentSchema)
+
+
+export const createNewComment = (values: Record<string, string | number | boolean>) => new Comments(values).save().then((comment) => comment);
